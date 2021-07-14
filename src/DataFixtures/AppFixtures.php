@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use App\Entity\Book;
 use App\Entity\Author;
 use App\Entity\Kind;
+use App\Entity\Borrower;
+
 
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -27,7 +29,10 @@ class AppFixtures extends Fixture
         // $this->loadAuthors($manager);
         // $this->loadKinds($manager);
 
-        // $manager->flush();
+
+        $this->loadBorrowers($manager);
+
+        $manager->flush();
     }
 
     public function loadBooks(ObjectManager $manager)
@@ -167,6 +172,50 @@ class AppFixtures extends Fixture
         $kind->setDescription(NULL);
         $manager->persist($kind);
     }
+
+    public function loadBorrowers(ObjectManager $manager)
+    {
+        $date_format = 'Y-m-d H:i:s';
+        $fake_phonenumber = '123456789';
+
+        $borrower = new Borrower();
+        $borrower->setLastname('foo');
+        $borrower->setFirstname('foo');
+        $borrower->setPhone($fake_phonenumber);
+        $borrower->setActive(true);
+        $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-01-01 10:00:00'));
+        $borrower->setDateModification(NULL);
+        $manager->persist($borrower);
+
+        $borrower = new Borrower();
+        $borrower->setLastname('bar');
+        $borrower->setFirstname('bar');
+        $borrower->setPhone($fake_phonenumber);
+        $borrower->setActive(false);
+        $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-02-01 11:00:00'));
+        $borrower->setDateModification(\DateTime::createFromFormat($date_format, '2020-05-01 12:00:00'));
+        $manager->persist($borrower);
+
+        $borrower = new Borrower();
+        $borrower->setLastname('baz');
+        $borrower->setFirstname('baz');
+        $borrower->setPhone($fake_phonenumber);
+        $borrower->setActive(true);
+        $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
+        $borrower->setDateModification(NULL);
+        $manager->persist($borrower);
+
+        for ($i = 0; $i < 100; $i++) {
+            $borrower->setLastname($this->faker->lastname());
+            $borrower->setFirstname($this->faker->firstname());
+            $borrower->setPhone($this->faker->phoneNumber());
+            $borrower->setActive($this->faker->boolean());
+            $borrower->setDateCreation(\DateTime::createFromFormat($date_format, $this->faker->date() + $this->faker->time()));
+            $borrower->setDateModification(NULL);
+            $manager->persist($borrower);
+        }
+    }
+
 }
 
 ?>

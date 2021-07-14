@@ -45,6 +45,22 @@ class Book
      */
     private $author;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Kind::class, inversedBy="books")
+     */
+    private $kind;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Borrowing::class, mappedBy="book")
+     */
+    private $borrowing;
+
+    public function __construct()
+    {
+        $this->kind = new ArrayCollection();
+        $this->borrowing = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,6 +144,60 @@ class Book
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Kind[]
+     */
+    public function getKind(): Collection
+    {
+        return $this->kind;
+    }
+
+    public function addKind(Kind $kind): self
+    {
+        if (!$this->kind->contains($kind)) {
+            $this->kind[] = $kind;
+        }
+
+        return $this;
+    }
+
+    public function removeKind(Kind $kind): self
+    {
+        $this->kind->removeElement($kind);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Borrowing[]
+     */
+    public function getBorrowing(): Collection
+    {
+        return $this->borrowing;
+    }
+
+    public function addBorrowing(Borrowing $borrowing): self
+    {
+        if (!$this->borrowing->contains($borrowing)) {
+            $this->borrowing[] = $borrowing;
+            $borrowing->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrowing(Borrowing $borrowing): self
+    {
+        if ($this->borrowing->removeElement($borrowing)) {
+            // set the owning side to null (unless already changed)
+            if ($borrowing->getBook() === $this) {
+                $borrowing->setBook(null);
+            }
+        }
 
         return $this;
     }

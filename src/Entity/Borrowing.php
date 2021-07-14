@@ -27,6 +27,16 @@ class Borrowing
      */
     private $date_return;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="borrowing")
+     */
+    private $book;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Borrower::class, inversedBy="borrowings")
+     */
+    private $borrower;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +62,30 @@ class Borrowing
     public function setDateReturn(?\DateTimeInterface $date_return): self
     {
         $this->date_return = $date_return;
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
+
+        return $this;
+    }
+
+    public function getBorrower(): ?Borrower
+    {
+        return $this->borrower;
+    }
+
+    public function setBorrower(?Borrower $borrower): self
+    {
+        $this->borrower = $borrower;
 
         return $this;
     }
