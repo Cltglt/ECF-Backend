@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
             $book->setTitle($this->faker->sentence(1));
             $book->setEditing($this->faker->numberBetween(1800, 2021));
             $book->setPages($this->faker->numberBetween(50, 1000));
-            $book->setCodeIsbn($this->faker->numberBetween(0, 9999999999999));
+            $book->setCodeIsbn($this->faker->ean13());
             $manager->persist($book);
         }
     }
