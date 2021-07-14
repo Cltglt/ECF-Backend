@@ -7,8 +7,6 @@ use App\Entity\Author;
 use App\Entity\Kind;
 use App\Entity\Borrower;
 
-
-
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory as FakerFactory;
 use Doctrine\Persistence\ObjectManager;
@@ -25,10 +23,9 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // $this->loadBooks($manager);
-        // $this->loadAuthors($manager);
-        // $this->loadKinds($manager);
-
+        $this->loadBooks($manager);
+        $this->loadKinds($manager);
+        $this->loadAuthors($manager);
 
         $this->loadBorrowers($manager);
 
@@ -206,11 +203,12 @@ class AppFixtures extends Fixture
         $manager->persist($borrower);
 
         for ($i = 0; $i < 100; $i++) {
+            $borrower = new Borrower();
             $borrower->setLastname($this->faker->lastname());
             $borrower->setFirstname($this->faker->firstname());
             $borrower->setPhone($this->faker->phoneNumber());
             $borrower->setActive($this->faker->boolean());
-            $borrower->setDateCreation(\DateTime::createFromFormat($date_format, $this->faker->date() + $this->faker->time()));
+            $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
             $borrower->setDateModification(NULL);
             $manager->persist($borrower);
         }

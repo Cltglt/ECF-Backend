@@ -40,12 +40,6 @@ class Book
     private $code_isbn;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="book")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Kind::class, inversedBy="books")
      */
     private $kind;
@@ -54,6 +48,11 @@ class Book
      * @ORM\OneToMany(targetEntity=Borrowing::class, mappedBy="book")
      */
     private $borrowing;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="books")
+     */
+    private $author;
 
     public function __construct()
     {
@@ -114,40 +113,6 @@ class Book
         return $this;
     }
 
-    public function addAuthor(Author $author): self
-    {
-        if (!$this->authors->contains($author)) {
-            $this->authors[] = $author;
-            $author->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAuthor(Author $author): self
-    {
-        if ($this->authors->removeElement($author)) {
-            // set the owning side to null (unless already changed)
-            if ($author->getBook() === $this) {
-                $author->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAuthor(): ?Author
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Author $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Kind[]
      */
@@ -198,6 +163,18 @@ class Book
                 $borrowing->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
