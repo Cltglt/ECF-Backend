@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,11 @@ class Book
      */
     private $code_isbn;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="book")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function getId(): ?int
     {
@@ -87,6 +94,40 @@ class Book
     public function setCodeIsbn(?string $code_isbn): self
     {
         $this->code_isbn = $code_isbn;
+
+        return $this;
+    }
+
+    public function addAuthor(Author $author): self
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+            $author->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Author $author): self
+    {
+        if ($this->authors->removeElement($author)) {
+            // set the owning side to null (unless already changed)
+            if ($author->getBook() === $this) {
+                $author->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

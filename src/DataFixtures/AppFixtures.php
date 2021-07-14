@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Book;
 use App\Entity\Author;
+use App\Entity\Kind;
+
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory as FakerFactory;
@@ -21,10 +23,11 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $this->loadBooks($manager);
-        $this->loadAuthors($manager);
+        // $this->loadBooks($manager);
+        // $this->loadAuthors($manager);
+        // $this->loadKinds($manager);
 
-        $manager->flush();
+        // $manager->flush();
     }
 
     public function loadBooks(ObjectManager $manager)
@@ -97,6 +100,73 @@ class AppFixtures extends Fixture
         }
     }
 
+    public function loadKinds(ObjectManager $manager)
+    {
+        $kind = new Kind();
+        $kind->setName('poésie');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName('nouvelle');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName('roman historique');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("roman d'amour");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("roman d'aventure");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("science-fiction");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("fantasy");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("biographie");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("conte");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("témoignage");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("théâtre");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("essai");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+
+        $kind = new Kind();
+        $kind->setName("journal intime");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+    }
 }
 
 ?>
