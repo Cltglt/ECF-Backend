@@ -23,16 +23,11 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-
-
-
         $this->loadAdmins($manager);
-
+        $this->loadBorrowers($manager);
         // $this->loadBooks($manager);
         // $this->loadKinds($manager);
         // $this->loadAuthors($manager);
-
-        $this->loadBorrowers($manager);
 
         $manager->flush();
     }
@@ -44,20 +39,7 @@ class AppFixtures extends Fixture
         $user->setPassword('123');
         $user->setRoles(['ROLE_ADMIN']);
         $manager->persist($user);
-
-        
-
-        // for ($i = 1; $i < $count; $i++) {
-        //     $user = new User();
-        //     $user->setEmail($this->faker->email());
-        //     $password = $this->encoder->encodePassword($user, '123');
-        //     $user->setPassword($password);
-        //     $user->setRoles(['ROLE_ADMIN']);
-
-        //     $manager->persist($user);
-        // }
     }
-
 
     public function loadBooks(ObjectManager $manager)
     {
@@ -199,12 +181,12 @@ class AppFixtures extends Fixture
 
     public function loadBorrowers(ObjectManager $manager)
     {
-
         $borrowers = [];
 
         $date_format = 'Y-m-d H:i:s';
         $fake_phonenumber = '123456789';
 
+        //! 1st
         $user = new User();
         $user->setEmail('foo.foo@example.com');
         $user->setPassword('123');
@@ -224,7 +206,7 @@ class AppFixtures extends Fixture
 
         $borrowers[] = $borrower;
 
-
+        //! 2nd
         $user = new User();
         $user->setEmail('bar.bar@example.com');
         $user->setPassword('123');
@@ -243,7 +225,7 @@ class AppFixtures extends Fixture
 
         $borrowers[] = $borrower;
 
-
+        //! 3rd
         $user = new User();
         $user->setEmail('baz.baz@example.com');
         $user->setPassword('123');
@@ -261,7 +243,6 @@ class AppFixtures extends Fixture
         $manager->persist($borrower);
 
         $borrowers[] = $borrower;
-
 
         for ($i = 0; $i < 100; $i++) {
 
@@ -287,9 +268,7 @@ class AppFixtures extends Fixture
             $manager->persist($borrower);
 
             $borrowers[] = $borrower;
-
         }
-
         return $borrowers;
     }
 
