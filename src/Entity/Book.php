@@ -40,11 +40,6 @@ class Book
     private $code_isbn;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Kind::class, inversedBy="books")
-     */
-    private $kind;
-
-    /**
      * @ORM\OneToMany(targetEntity=Borrowing::class, mappedBy="book")
      */
     private $borrowing;
@@ -54,10 +49,15 @@ class Book
      */
     private $author;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Kind::class, inversedBy="books")
+     */
+    private $kind;
+
     public function __construct()
     {
-        $this->kind = new ArrayCollection();
         $this->borrowing = new ArrayCollection();
+        $this->kind = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,30 +114,6 @@ class Book
     }
 
     /**
-     * @return Collection|Kind[]
-     */
-    public function getKind(): Collection
-    {
-        return $this->kind;
-    }
-
-    public function addKind(Kind $kind): self
-    {
-        if (!$this->kind->contains($kind)) {
-            $this->kind[] = $kind;
-        }
-
-        return $this;
-    }
-
-    public function removeKind(Kind $kind): self
-    {
-        $this->kind->removeElement($kind);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Borrowing[]
      */
     public function getBorrowing(): Collection
@@ -175,6 +151,30 @@ class Book
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Kind[]
+     */
+    public function getKind(): Collection
+    {
+        return $this->kind;
+    }
+
+    public function addKind(Kind $kind): self
+    {
+        if (!$this->kind->contains($kind)) {
+            $this->kind[] = $kind;
+        }
+
+        return $this;
+    }
+
+    public function removeKind(Kind $kind): self
+    {
+        $this->kind->removeElement($kind);
 
         return $this;
     }

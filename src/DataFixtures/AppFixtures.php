@@ -23,11 +23,20 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $this->loadAdmins($manager);
-        $this->loadBorrowers($manager);
-        // $this->loadBooks($manager);
+
+        $countBook = 1000;
+        $countBookPerAuthor = 2;
+
+        // Admin
+        // $this->loadAdmins($manager);
+
+        $borrowers = $this->loadBorrowers($manager);
+        $books = $this->loadBooks($manager, $countBook);
+
+        // $authors = $this->loadAuthors($manager);
+
         // $this->loadKinds($manager);
-        // $this->loadAuthors($manager);
+
 
         $manager->flush();
     }
@@ -41,14 +50,18 @@ class AppFixtures extends Fixture
         $manager->persist($user);
     }
 
-    public function loadBooks(ObjectManager $manager)
+    public function loadBooks(ObjectManager $manager,int $count)
     {
+
+        $books = [];
+
         $book = new Book();
         $book->setTitle('');
         $book->setEditing(2010);
         $book->setPages(100);
         $book->setCodeIsbn('9785786930024');
         $manager->persist($book);
+        $books[] = $book;
 
         $book = new Book();
         $book->setTitle('Lorem ipsum dolor sit amet');
@@ -56,6 +69,7 @@ class AppFixtures extends Fixture
         $book->setPages(150);
         $book->setCodeIsbn('9783817260935');
         $manager->persist($book);
+        $books[] = $book;
 
         $book = new Book();
         $book->setTitle('Mihi quidem Antiochum');
@@ -63,6 +77,7 @@ class AppFixtures extends Fixture
         $book->setPages(200);
         $book->setCodeIsbn('9782020493727');
         $manager->persist($book);
+        $books[] = $book;
 
         $book = new Book();
         $book->setTitle('Quem audis satis belle');
@@ -70,44 +85,56 @@ class AppFixtures extends Fixture
         $book->setPages(250);
         $book->setCodeIsbn('9794059561353');
         $manager->persist($book);
+        $books[] = $book;
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 4; $i < $count; $i++) {
             $book = new Book();
             $book->setTitle($this->faker->sentence(1));
             $book->setEditing($this->faker->numberBetween(1800, 2021));
             $book->setPages($this->faker->numberBetween(50, 1000));
             $book->setCodeIsbn($this->faker->ean13());
             $manager->persist($book);
+            $books[] = $book;
         }
+        return $books;
     }
 
     public function loadAuthors(ObjectManager $manager)
     {
+
+        $authors = [];
+
         $author = new Author();
         $author->setLastname('auteur inconnu');
         $author->setFirstname('');
         $manager->persist($author);
+        $authors[] = $author;
 
         $author = new Author();
         $author->setLastname('Cartier');
         $author->setFirstname('Hugues');
         $manager->persist($author);
+        $authors[] = $author;
 
         $author = new Author();
         $author->setLastname('Lambert');
         $author->setFirstname('Armand');
         $manager->persist($author);
+        $authors[] = $author;
 
         $author = new Author();
         $author->setLastname('Moitessier');
         $author->setFirstname('Thomas');
         $manager->persist($author);
+        $authors[] = $author;
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 4; $i < 500; $i++) {
             $author = new Author();
             $author->setLastname($this->faker->lastname());
             $author->setFirstname($this->faker->firstname());
             $manager->persist($author);
+            $authors[] = $author;
+
         }
     }
 
@@ -244,7 +271,7 @@ class AppFixtures extends Fixture
 
         $borrowers[] = $borrower;
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 3; $i < 100; $i++) {
 
             // Utilisation de variables intermédiaire pour que le nom/prénom des Users(mail)
             // correspondent aux Borrowers(lastname/firstname)
@@ -252,7 +279,7 @@ class AppFixtures extends Fixture
             $firstname = $this->faker->firstname();
 
             $user = new User();
-            $user->setEmail($lastname.'.'.$firstname.'@gmail.com');
+            $user->setEmail($lastname.'.'.$firstname.'@'.$this->faker->freeEmailDomain());
             $user->setPassword('123');
             $user->setRoles(['ROLE_EMPRUNTEUR']);
             $manager->persist($user);
