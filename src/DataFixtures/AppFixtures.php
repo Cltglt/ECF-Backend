@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\Author;
 use App\Entity\Kind;
 use App\Entity\Borrower;
+use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory as FakerFactory;
@@ -13,7 +14,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
-
     private $faker;
 
     public function __construct()
@@ -23,14 +23,41 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $this->loadBooks($manager);
-        $this->loadKinds($manager);
-        $this->loadAuthors($manager);
+
+
+
+        $this->loadAdmins($manager);
+
+        // $this->loadBooks($manager);
+        // $this->loadKinds($manager);
+        // $this->loadAuthors($manager);
 
         $this->loadBorrowers($manager);
 
         $manager->flush();
     }
+
+    public function loadAdmins(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setEmail('admin@example.com');
+        $user->setPassword('123');
+        $user->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
+
+        
+
+        // for ($i = 1; $i < $count; $i++) {
+        //     $user = new User();
+        //     $user->setEmail($this->faker->email());
+        //     $password = $this->encoder->encodePassword($user, '123');
+        //     $user->setPassword($password);
+        //     $user->setRoles(['ROLE_ADMIN']);
+
+        //     $manager->persist($user);
+        // }
+    }
+
 
     public function loadBooks(ObjectManager $manager)
     {
@@ -172,8 +199,17 @@ class AppFixtures extends Fixture
 
     public function loadBorrowers(ObjectManager $manager)
     {
+
+        $borrowers = [];
+
         $date_format = 'Y-m-d H:i:s';
         $fake_phonenumber = '123456789';
+
+        $user = new User();
+        $user->setEmail('foo.foo@example.com');
+        $user->setPassword('123');
+        $user->setRoles(['ROLE_EMPRUNTEUR']);
+        $manager->persist($user);
 
         $borrower = new Borrower();
         $borrower->setLastname('foo');
@@ -182,7 +218,18 @@ class AppFixtures extends Fixture
         $borrower->setActive(true);
         $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-01-01 10:00:00'));
         $borrower->setDateModification(NULL);
+        $borrower->setUser($user);
+
         $manager->persist($borrower);
+
+        $borrowers[] = $borrower;
+
+
+        $user = new User();
+        $user->setEmail('bar.bar@example.com');
+        $user->setPassword('123');
+        $user->setRoles(['ROLE_EMPRUNTEUR']);
+        $manager->persist($user);
 
         $borrower = new Borrower();
         $borrower->setLastname('bar');
@@ -191,7 +238,17 @@ class AppFixtures extends Fixture
         $borrower->setActive(false);
         $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-02-01 11:00:00'));
         $borrower->setDateModification(\DateTime::createFromFormat($date_format, '2020-05-01 12:00:00'));
+        $borrower->setUser($user);
         $manager->persist($borrower);
+
+        $borrowers[] = $borrower;
+
+
+        $user = new User();
+        $user->setEmail('baz.baz@example.com');
+        $user->setPassword('123');
+        $user->setRoles(['ROLE_EMPRUNTEUR']);
+        $manager->persist($user);
 
         $borrower = new Borrower();
         $borrower->setLastname('baz');
@@ -200,20 +257,41 @@ class AppFixtures extends Fixture
         $borrower->setActive(true);
         $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
         $borrower->setDateModification(NULL);
+        $borrower->setUser($user);
         $manager->persist($borrower);
 
+        $borrowers[] = $borrower;
+
+
         for ($i = 0; $i < 100; $i++) {
+
+            // Utilisation de variables intermédiaire pour que le nom/prénom des Users(mail)
+            // correspondent aux Borrowers(lastname/firstname)
+            $lastname = $this->faker->lastname();
+            $firstname = $this->faker->firstname();
+
+            $user = new User();
+            $user->setEmail($lastname.'.'.$firstname.'@gmail.com');
+            $user->setPassword('123');
+            $user->setRoles(['ROLE_EMPRUNTEUR']);
+            $manager->persist($user);
+
             $borrower = new Borrower();
-            $borrower->setLastname($this->faker->lastname());
-            $borrower->setFirstname($this->faker->firstname());
+            $borrower->setLastname($lastname);
+            $borrower->setFirstname($firstname);
             $borrower->setPhone($this->faker->phoneNumber());
             $borrower->setActive($this->faker->boolean());
             $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
             $borrower->setDateModification(NULL);
+            $borrower->setUser($user);
             $manager->persist($borrower);
+
+            $borrowers[] = $borrower;
+
         }
+
+        return $borrowers;
     }
 
 }
-
 ?>

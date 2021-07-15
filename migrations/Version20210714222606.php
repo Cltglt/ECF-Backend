@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210714174210 extends AbstractMigration
+final class Version20210714222606 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,16 @@ final class Version20210714174210 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE book DROP FOREIGN KEY FK_CBE5A331F675F31B');
-        $this->addSql('DROP INDEX IDX_CBE5A331F675F31B ON book');
-        $this->addSql('ALTER TABLE book DROP author_id');
+        $this->addSql('ALTER TABLE borrower ADD user_id INT NOT NULL');
+        $this->addSql('ALTER TABLE borrower ADD CONSTRAINT FK_DB904DB4A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_DB904DB4A76ED395 ON borrower (user_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE book ADD author_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE book ADD CONSTRAINT FK_CBE5A331F675F31B FOREIGN KEY (author_id) REFERENCES author (id)');
-        $this->addSql('CREATE INDEX IDX_CBE5A331F675F31B ON book (author_id)');
+        $this->addSql('ALTER TABLE borrower DROP FOREIGN KEY FK_DB904DB4A76ED395');
+        $this->addSql('DROP INDEX UNIQ_DB904DB4A76ED395 ON borrower');
+        $this->addSql('ALTER TABLE borrower DROP user_id');
     }
 }
