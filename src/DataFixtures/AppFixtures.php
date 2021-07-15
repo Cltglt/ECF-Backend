@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\Author;
 use App\Entity\Kind;
 use App\Entity\Borrower;
+use App\Entity\Borrowing;
 use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -23,19 +24,16 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-
         $countBook = 1000;
         $countBookPerAuthor = 2;
 
-        // Admin
         $this->loadAdmins($manager);
         $kinds = $this->loadKinds($manager);
         $authors = $this->loadAuthors($manager);
-
-        $books = $this->loadBooks($manager, $countBook, $authors,$countBookPerAuthor,$kinds);
-
         $borrowers = $this->loadBorrowers($manager);
 
+        $books = $this->loadBooks($manager, $countBook, $authors,$countBookPerAuthor,$kinds);
+        $borrowings = $this->loadBorrowings($manager, $books, $borrowers);
 
         $manager->flush();
     }
@@ -339,5 +337,54 @@ class AppFixtures extends Fixture
         return $borrowers;
     }
 
+    public function loadBorrowings(ObjectManager $manager,array $books,array $borrowers)
+    {
+        $borrowings = [];
+
+        $date_format = 'Y-m-d H:i:s';
+
+        $borrowing = new Borrowing();
+        $borrowing->setDateBorrowing(\DateTime::createFromFormat($date_format, '2020-02-01 10:00:00'));
+        $borrowing->setDateReturn(\DateTime::createFromFormat($date_format, '2020-03-01 10:00:00'));
+        $borrowing->setBorrower($borrowers[random_int(0,99)]);
+        $borrowing->setBook($books[random_int(0,499)]);
+        $manager->persist($borrowing);
+
+        $borrowings[] = $borrowing;
+
+        $borrowing = new Borrowing();
+        $borrowing->setDateBorrowing(\DateTime::createFromFormat($date_format, '2020-03-01 10:00:00'));
+        $borrowing->setDateReturn(\DateTime::createFromFormat($date_format, '2020-04-01 10:00:00'));
+        $borrowing->setBorrower($borrowers[1]);
+        $borrowing->setBook($books[1]);
+        $manager->persist($borrowing);
+
+        $borrowings[] = $borrowing;
+
+        $borrowing = new Borrowing();
+        $borrowing->setDateBorrowing(\DateTime::createFromFormat($date_format, '2020-04-01 10:00:00'));
+        $borrowing->setDateReturn(NULL);
+        $borrowing->setBorrower($borrowers[2]);
+        $borrowing->setBook($books[2]);
+        $manager->persist($borrowing);
+
+        $borrowings[] = $borrowing;
+
+        for ($i = 3; $i < 200; $i++) {
+
+            $borrowing = new Borrowing();
+            $borrowing->setDateBorrowing($this->faker->dateTimeThisDecade());
+            $startDate = $borrowing->getDateBorrowing();
+            $endDate = \DateTime::createFromFormat('Y-m-d H:i:s', $startDate->format('Y-m-d H:i:s'));
+            $endDate->add(new \DateInterval('P1M'));
+            $borrowing->setDateReturn($endDate);
+            $borrowing->setBorrower($borrowers[random_int(0,99)]);
+            $borrowing->setBook($books[random_int(0,499)]);
+            $manager->persist($borrowing);
+
+            $borrowings[] = $borrowing;
+        }
+        return $borrowings;
+    }
 }
 ?>
