@@ -28,14 +28,13 @@ class AppFixtures extends Fixture
         $countBookPerAuthor = 2;
 
         // Admin
-        // $this->loadAdmins($manager);
+        $this->loadAdmins($manager);
+        $kinds = $this->loadKinds($manager);
+        $authors = $this->loadAuthors($manager);
+
+        $books = $this->loadBooks($manager, $countBook, $authors,$countBookPerAuthor,$kinds);
 
         $borrowers = $this->loadBorrowers($manager);
-        $books = $this->loadBooks($manager, $countBook);
-
-        // $authors = $this->loadAuthors($manager);
-
-        // $this->loadKinds($manager);
 
 
         $manager->flush();
@@ -50,53 +49,90 @@ class AppFixtures extends Fixture
         $manager->persist($user);
     }
 
-    public function loadBooks(ObjectManager $manager,int $count)
+    public function loadKinds(ObjectManager $manager)
     {
 
-        $books = [];
+        $kinds = [];
 
-        $book = new Book();
-        $book->setTitle('');
-        $book->setEditing(2010);
-        $book->setPages(100);
-        $book->setCodeIsbn('9785786930024');
-        $manager->persist($book);
-        $books[] = $book;
+        $kind = new Kind();
+        $kind->setName('poésie');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
 
-        $book = new Book();
-        $book->setTitle('Lorem ipsum dolor sit amet');
-        $book->setEditing(2011);
-        $book->setPages(150);
-        $book->setCodeIsbn('9783817260935');
-        $manager->persist($book);
-        $books[] = $book;
+        $kind = new Kind();
+        $kind->setName('nouvelle');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
 
-        $book = new Book();
-        $book->setTitle('Mihi quidem Antiochum');
-        $book->setEditing(2012);
-        $book->setPages(200);
-        $book->setCodeIsbn('9782020493727');
-        $manager->persist($book);
-        $books[] = $book;
+        $kind = new Kind();
+        $kind->setName('roman historique');
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
 
-        $book = new Book();
-        $book->setTitle('Quem audis satis belle');
-        $book->setEditing(2013);
-        $book->setPages(250);
-        $book->setCodeIsbn('9794059561353');
-        $manager->persist($book);
-        $books[] = $book;
+        $kind = new Kind();
+        $kind->setName("roman d'amour");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
 
-        for ($i = 4; $i < $count; $i++) {
-            $book = new Book();
-            $book->setTitle($this->faker->sentence(1));
-            $book->setEditing($this->faker->numberBetween(1800, 2021));
-            $book->setPages($this->faker->numberBetween(50, 1000));
-            $book->setCodeIsbn($this->faker->ean13());
-            $manager->persist($book);
-            $books[] = $book;
-        }
-        return $books;
+        $kind = new Kind();
+        $kind->setName("roman d'aventure");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("science-fiction");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("fantasy");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("biographie");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("conte");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("témoignage");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("théâtre");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("essai");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        $kind = new Kind();
+        $kind->setName("journal intime");
+        $kind->setDescription(NULL);
+        $manager->persist($kind);
+        $kinds[] = $kind;
+
+        return $kinds;
     }
 
     public function loadAuthors(ObjectManager $manager)
@@ -129,6 +165,7 @@ class AppFixtures extends Fixture
         $authors[] = $author;
 
         for ($i = 4; $i < 500; $i++) {
+
             $author = new Author();
             $author->setLastname($this->faker->lastname());
             $author->setFirstname($this->faker->firstname());
@@ -136,74 +173,78 @@ class AppFixtures extends Fixture
             $authors[] = $author;
 
         }
+        return $authors;
     }
 
-    public function loadKinds(ObjectManager $manager)
+    public function loadBooks(ObjectManager $manager,int $count,array $authors,int $countBookPerAuthor,array $kinds)
     {
-        $kind = new Kind();
-        $kind->setName('poésie');
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
 
-        $kind = new Kind();
-        $kind->setName('nouvelle');
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $authorIndex = 0;
+        $author = $authors[$authorIndex];
 
-        $kind = new Kind();
-        $kind->setName('roman historique');
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $books = [];
 
-        $kind = new Kind();
-        $kind->setName("roman d'amour");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $book = new Book();
+        $book->setTitle('');
+        $book->setEditing(2010);
+        $book->setPages(100);
+        $book->setCodeIsbn('9785786930024');
+        $book->setAuthor($author);
+        $book->addKind($kinds[0]);
+        $manager->persist($book);
+        $books[] = $book;
 
-        $kind = new Kind();
-        $kind->setName("roman d'aventure");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $book = new Book();
+        $book->setTitle('Lorem ipsum dolor sit amet');
+        $book->setEditing(2011);
+        $book->setPages(150);
+        $book->setCodeIsbn('9783817260935');
+        $book->setAuthor($author);
+        $book->addKind($kinds[1]);
+        $manager->persist($book);
+        $books[] = $book;
 
-        $kind = new Kind();
-        $kind->setName("science-fiction");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $authorIndex = 1;
+        $author = $authors[$authorIndex];
 
-        $kind = new Kind();
-        $kind->setName("fantasy");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $book = new Book();
+        $book->setTitle('Mihi quidem Antiochum');
+        $book->setEditing(2012);
+        $book->setPages(200);
+        $book->setCodeIsbn('9782020493727');
+        $book->setAuthor($author);
+        $book->addKind($kinds[2]);
+        $manager->persist($book);
+        $books[] = $book;
 
-        $kind = new Kind();
-        $kind->setName("biographie");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        $book = new Book();
+        $book->setTitle('Quem audis satis belle');
+        $book->setEditing(2013);
+        $book->setPages(250);
+        $book->setCodeIsbn('9794059561353');
+        $book->setAuthor($author);
+        $book->addKind($kinds[3]);
+        $manager->persist($book);
+        $books[] = $book;
 
-        $kind = new Kind();
-        $kind->setName("conte");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+        for ($i = 4; $i < $count; $i++) {
 
-        $kind = new Kind();
-        $kind->setName("témoignage");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+            if ($i % $countBookPerAuthor == 0) {
+                $authorIndex++;
+            }
+            $author = $authors[$authorIndex];
 
-        $kind = new Kind();
-        $kind->setName("théâtre");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
-
-        $kind = new Kind();
-        $kind->setName("essai");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
-
-        $kind = new Kind();
-        $kind->setName("journal intime");
-        $kind->setDescription(NULL);
-        $manager->persist($kind);
+            $book = new Book();
+            $book->setTitle($this->faker->sentence(1));
+            $book->setEditing($this->faker->numberBetween(1800, 2021));
+            $book->setPages($this->faker->numberBetween(50, 1000));
+            $book->setCodeIsbn($this->faker->ean13());
+            $book->setAuthor($author);
+            $book->addKind($kinds[random_int(0,12)]);
+            $manager->persist($book);
+            $books[] = $book;
+        }
+        return $books;
     }
 
     public function loadBorrowers(ObjectManager $manager)
@@ -272,7 +313,6 @@ class AppFixtures extends Fixture
         $borrowers[] = $borrower;
 
         for ($i = 3; $i < 100; $i++) {
-
             // Utilisation de variables intermédiaire pour que le nom/prénom des Users(mail)
             // correspondent aux Borrowers(lastname/firstname)
             $lastname = $this->faker->lastname();
