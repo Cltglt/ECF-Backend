@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
         $borrowers = $this->loadBorrowers($manager);
 
         $books = $this->loadBooks($manager, $countBook, $authors,$countBookPerAuthor,$kinds);
-        $borrowings = $this->loadBorrowings($manager, $books, $borrowers);
+        $this->loadBorrowings($manager, $books, $borrowers);
 
         $manager->flush();
     }
@@ -375,7 +375,7 @@ class AppFixtures extends Fixture
             $borrowing = new Borrowing();
             $borrowing->setDateBorrowing($this->faker->dateTimeThisDecade());
             $startDate = $borrowing->getDateBorrowing();
-            $endDate = \DateTime::createFromFormat('Y-m-d H:i:s', $startDate->format('Y-m-d H:i:s'));
+            $endDate = \DateTime::createFromFormat($date_format, $startDate->format($date_format));
             $endDate->add(new \DateInterval('P1M'));
             $borrowing->setDateReturn($endDate);
             $borrowing->setBorrower($borrowers[random_int(0,99)]);
