@@ -126,15 +126,26 @@ class TestController extends AbstractController
         dump($borrower);
 
         // - les données de l'emprunteur qui est relié au user dont l'id est `3`
+        $borrower = $borrowerRepository->findBorrowerByUserID(4);
+        dump($borrower);
 
         // - la liste des emprunteurs dont le nom ou le prénom contient le mot clé `foo`
+        $borrowers = $borrowerRepository->findByFirstnameOrLastname('foo');
+        dump($borrowers);
 
         // - la liste des emprunteurs dont le téléphone contient le mot clé `1234`
+        $borrowers = $borrowerRepository->findByPhone(1234);
+        dump($borrowers);
 
         // - la liste des emprunteurs dont la date de création est antérieure au 01/03/2021 exclu (c-à-d strictement plus petit)
 
-        // - la liste des emprunteurs inactifs (c-à-d dont l'attribut `actif` est égal à `false`)
+        // Doute sur le fonction
+        $borrowers = $borrowerRepository->findByDate('2020-03-01 00:00:00');
+        dump($borrowers);
 
+        // - la liste des emprunteurs inactifs (c-à-d dont l'attribut `actif` est égal à `false`)
+        $borrowers = $borrowerRepository->findByActive(false);
+        dump($borrowers);
 
 
 

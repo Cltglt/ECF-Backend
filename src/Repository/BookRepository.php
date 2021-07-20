@@ -19,7 +19,7 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-            /**
+    /**
      * @param $role string nom d'un title comme 'lorem', 'ipsum', etc
      * @return Book[] Returns an array of User objects
      */
