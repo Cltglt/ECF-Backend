@@ -31,7 +31,6 @@ class AppFixtures extends Fixture
         $kinds = $this->loadKinds($manager);
         $authors = $this->loadAuthors($manager);
         $borrowers = $this->loadBorrowers($manager);
-
         $books = $this->loadBooks($manager, $countBook, $authors,$countBookPerAuthor,$kinds);
         $this->loadBorrowings($manager, $books, $borrowers);
 
