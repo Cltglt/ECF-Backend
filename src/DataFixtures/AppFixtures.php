@@ -13,13 +13,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory as FakerFactory;
 use Doctrine\Persistence\ObjectManager;
 use Easybook\Slugger;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class AppFixtures extends Fixture
 {
     private $faker;
+    private $encoder;
 
-    public function __construct()
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
+        $this->encoder = $encoder;
         $this->faker = FakerFactory::create('fr_FR');
     }
 
@@ -42,7 +46,7 @@ class AppFixtures extends Fixture
     {
         $user = new User();
         $user->setEmail('admin@example.com');
-        $user->setPassword('123');
+        $user->setPassword($this->encoder->encodePassword($user, '123'));
         $user->setRoles(['ROLE_ADMIN']);
         $manager->persist($user);
     }
@@ -242,7 +246,7 @@ class AppFixtures extends Fixture
         //! 1st
         $user = new User();
         $user->setEmail('foo.foo@example.com');
-        $user->setPassword('123');
+        $user->setPassword($this->encoder->encodePassword($user, '123'));
         $user->setRoles(['ROLE_EMPRUNTEUR']);
         $manager->persist($user);
 
@@ -261,7 +265,7 @@ class AppFixtures extends Fixture
         //! 2nd
         $user = new User();
         $user->setEmail('bar.bar@example.com');
-        $user->setPassword('123');
+        $user->setPassword($this->encoder->encodePassword($user, '123'));
         $user->setRoles(['ROLE_EMPRUNTEUR']);
         $manager->persist($user);
 
@@ -280,7 +284,7 @@ class AppFixtures extends Fixture
         //! 3rd
         $user = new User();
         $user->setEmail('baz.baz@example.com');
-        $user->setPassword('123');
+        $user->setPassword($this->encoder->encodePassword($user, '123'));
         $user->setRoles(['ROLE_EMPRUNTEUR']);
         $manager->persist($user);
 
@@ -307,7 +311,7 @@ class AppFixtures extends Fixture
 
             $user = new User();
             $user->setEmail($slugLastname.'.'.$slugFirstname.'@'.$this->faker->freeEmailDomain());
-            $user->setPassword('123');
+            $user->setPassword($this->encoder->encodePassword($user, '123'));
             $user->setRoles(['ROLE_EMPRUNTEUR']);
             $manager->persist($user);
 
@@ -375,4 +379,3 @@ class AppFixtures extends Fixture
         return $borrowings;
     }
 }
-?>

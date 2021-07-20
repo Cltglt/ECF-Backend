@@ -53,7 +53,7 @@ Données de test : 100 users dont les données sont générées aléatoirement
 Attention : chaque user doit être relié à un emprunteur mais n'oubliez pas que la relation est unidirectionnelle et qu'elle n'est visible que depuis l'emprunteur
 
 
-### Livre
+### Book
 
 Attributs :
 
@@ -88,7 +88,7 @@ Données indispensables :
 Données de test : 1000 livres dont les données sont générées aléatoirement.
 N'oubliez pas créer également les relations.
 
-### Auteur
+### Author
 
 Attributs :
 
@@ -111,7 +111,7 @@ Données indispensables :
 
 Données de test : 500 auteurs dont les données sont générées aléatoirement
 
-### Genre
+### Kind
 
 Attributs :
 
@@ -144,7 +144,7 @@ Données indispensables :
 Données de test : aucunes
 
 
-### Emprunteur
+### Borrower
 
 Attributs :
 
@@ -173,7 +173,7 @@ Données de test : 100 emprunteurs dont les données sont générées aléatoire
 
 Attention : chaque emprunteur doit être relié à un compte user
 
-### Emprunt
+### Borrowing
 
 Attributs :
 
