@@ -11,9 +11,10 @@ use App\Repository\BookRepository;
 use App\Repository\KindRepository;
 use App\Repository\AuthorRepository;
 use App\Repository\BorrowerRepository;
+use App\Repository\BorrowingRepository;
 
 use App\Entity\Book;
-
+use App\Entity\Borrowing;
 
 class TestController extends AbstractController
 {
@@ -25,7 +26,8 @@ class TestController extends AbstractController
         BookRepository $bookRepository,
         AuthorRepository $authorRepository,
         KindRepository $kindRepository,
-        BorrowerRepository $borrowerRepository): Response
+        BorrowerRepository $borrowerRepository,
+        BorrowingRepository $borrowingRepository): Response
     {
         
         $entityManager = $this->getDoctrine()->getManager();
@@ -101,14 +103,14 @@ class TestController extends AbstractController
 
         // Requêtes de suppression :
         // - supprimer le livre dont l'id est `123`
-        // ERROR
-        // Provoque l'erreur suivante : 
-        // An exception occurred while executing 
-        // 'DELETE FROM book WHERE id = ?' with params [123]:
-        // SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or 
-        // update a parent row: a foreign key constraint fails 
-        // (`ecfdatabase`.`borrowing`, CONSTRAINT `FK_226E589716A2B381` FOREIGN KEY 
-        // (`book_id`) REFERENCES `book` (`id`))
+        //! ERROR
+        //! Provoque l'erreur suivante : 
+        //! An exception occurred while executing 
+        //! 'DELETE FROM book WHERE id = ?' with params [123]:
+        //! SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or 
+        //! update a parent row: a foreign key constraint fails 
+        //! (`ecfdatabase`.`borrowing`, CONSTRAINT `FK_226E589716A2B381` FOREIGN KEY 
+        //! (`book_id`) REFERENCES `book` (`id`))
 
         // $entityManager->remove($bookRepository->find(123));
         // $entityManager->flush();
@@ -148,9 +150,68 @@ class TestController extends AbstractController
         dump($borrowers);
 
 
+        // BORROWING
+        // Requêtes de lecture :
+        // - la liste des 10 derniers emprunts au niveau chronologique
+
+        // - la liste des emprunts de l'emprunteur dont l'id est `2`
+        $borrowings = $borrowingRepository->findBorrowingByBorrowerID(2);
+        dump($borrowings);
+
+        // - la liste des emprunts du livre dont l'id est `3`
+        $borrowings = $borrowingRepository->findBorrowingByBookID(3);
+        dump($borrowings);
+
+        // - la liste des emprunts qui ont été retournés avant le 01/01/2021
+        // Doute sur le résultat
+        $borrowings = $borrowingRepository->findBorrowingByReturnDate('2021-01-01 00:00:00');
+        dump($borrowings);
+
+        // - la liste des emprunts qui n'ont pas encore été retournés (c-à-d dont la date de retour est nulle)
+        $borrowings = $borrowingRepository->findBorrowingByReturnDateNull();
+        dump($borrowings);
+
+        // - les données de l'emprunt du livre dont l'id est `3` et qui n'a pas encore été retournés (c-à-d dont la date de retour est nulle)
+        $borrowings = $borrowingRepository->findBorrowingByBookAndReturn(3);
+        dump($borrowings);
+        
+        // Requêtes de création :
+        // - ajouter un nouvel emprunt
+        // - date d'emprunt : 01/12/2020 à 16h00
+        // - date de retour : aucune date
+        // - emprunteur : foo foo (id `1`)
+        // - livre : Lorem ipsum dolor sit amet (id `1`)
+        $date_format = 'Y-m-d H:i:s';
+        $borrowerFoo = $borrowerRepository->find(1);
+        $bookLorem = $bookRepository->find(1);
+
+        $borrowing = new Borrowing();
+        $borrowing->setDateBorrowing(\DateTime::createFromFormat($date_format, '2020-12-01 16:00:00'));
+        $borrowing->setBorrower($borrowerFoo);
+        $borrowing->setBook($bookLorem);
+        $entityManager->persist($borrowing);
+        $entityManager->flush();
+        dump($borrowing);
+
+
+        // Requêtes de mise à jour :
+        // - modifier l'emprunt dont l'id est `3`
+        // - date de retour : 01/05/2020 à 10h00
+        $borrowing = $borrowingRepository->find(3);
+        $borrowing->setDateReturn(\DateTime::createFromFormat($date_format, '2020-05-01 10:00:00'));
+        dump($borrowing);
+
+        // Requêtes de suppression :
+        // - supprimer l'emprunt dont l'id est `42`
+        //! ERROR
+        //! Provoque l'erreur suivante : 
+        //! EntityManager#remove() expects parameter 1 to be an entity object, NULL given.
+        // $entityManager->remove($borrowingRepository->find(42));
+        // $entityManager->flush();
+        // $borrowings = $borrowingRepository->findAll();
+        // dump($borrowings);
 
         exit();
-
 
         // return $this->render('test/index.html.twig', [
         //     'controller_name' => 'TestController',

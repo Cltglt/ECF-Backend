@@ -27,7 +27,7 @@ class BorrowerRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.user', 'u')
-            ->andWhere('u.id LIKE :id')
+            ->where('u.id LIKE :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()

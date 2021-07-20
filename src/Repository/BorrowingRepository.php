@@ -19,6 +19,63 @@ class BorrowingRepository extends ServiceEntityRepository
         parent::__construct($registry, Borrowing::class);
     }
 
+    public function findBorrowingByBorrowerID(int $id)
+    {
+        return $this->createQueryBuilder('bi')
+            ->innerJoin('bi.borrower', 'be')
+            ->where('be.id LIKE :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBorrowingByBookID(int $id)
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.book', 'bo')
+            ->where('bo.id LIKE :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBorrowingByReturnDate(string $date)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.date_return < :date_return')
+            ->setParameter('date_return', "%{$date}%")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBorrowingByReturnDateNull()
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.date_return LIKE :date_return')
+            ->setParameter('date_return', null)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBorrowingByBookAndReturn(int $id)
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.book', 'bo')
+            ->where('bo.id LIKE :id')
+            ->andWhere('b.date_return LIKE :date_return')
+            ->setParameter('id', $id)
+            ->setParameter('date_return', null)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    
+
     // /**
     //  * @return Borrowing[] Returns an array of Borrowing objects
     //  */
