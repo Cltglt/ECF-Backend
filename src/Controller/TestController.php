@@ -111,7 +111,6 @@ class TestController extends AbstractController
         //! update a parent row: a foreign key constraint fails 
         //! (`ecfdatabase`.`borrowing`, CONSTRAINT `FK_226E589716A2B381` FOREIGN KEY 
         //! (`book_id`) REFERENCES `book` (`id`))
-
         // $entityManager->remove($bookRepository->find(123));
         // $entityManager->flush();
         // $books = $bookRepository->findAll();

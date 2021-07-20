@@ -12,6 +12,7 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory as FakerFactory;
 use Doctrine\Persistence\ObjectManager;
+use Easybook\Slugger;
 
 class AppFixtures extends Fixture
 {
@@ -53,79 +54,66 @@ class AppFixtures extends Fixture
 
         $kind = new Kind();
         $kind->setName('poésie');
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName('nouvelle');
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName('roman historique');
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("roman d'amour");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("roman d'aventure");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("science-fiction");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("fantasy");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("biographie");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("conte");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("témoignage");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("théâtre");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("essai");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
         $kind = new Kind();
         $kind->setName("journal intime");
-        $kind->setDescription(NULL);
         $manager->persist($kind);
         $kinds[] = $kind;
 
@@ -264,7 +252,6 @@ class AppFixtures extends Fixture
         $borrower->setPhone($fake_phonenumber);
         $borrower->setActive(true);
         $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-01-01 10:00:00'));
-        $borrower->setDateModification(NULL);
         $borrower->setUser($user);
 
         $manager->persist($borrower);
@@ -303,7 +290,6 @@ class AppFixtures extends Fixture
         $borrower->setPhone($fake_phonenumber);
         $borrower->setActive(true);
         $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
-        $borrower->setDateModification(NULL);
         $borrower->setUser($user);
         $manager->persist($borrower);
 
@@ -315,8 +301,12 @@ class AppFixtures extends Fixture
             $lastname = $this->faker->lastname();
             $firstname = $this->faker->firstname();
 
+            $slugger = new Slugger();
+            $slugLastname = $slugger->slugify($lastname);
+            $slugFirstname = $slugger->slugify($firstname);
+
             $user = new User();
-            $user->setEmail($lastname.'.'.$firstname.'@'.$this->faker->freeEmailDomain());
+            $user->setEmail($slugLastname.'.'.$slugFirstname.'@'.$this->faker->freeEmailDomain());
             $user->setPassword('123');
             $user->setRoles(['ROLE_EMPRUNTEUR']);
             $manager->persist($user);
@@ -327,7 +317,6 @@ class AppFixtures extends Fixture
             $borrower->setPhone($this->faker->phoneNumber());
             $borrower->setActive($this->faker->boolean());
             $borrower->setDateCreation(\DateTime::createFromFormat($date_format, '2020-03-01 12:00:00'));
-            $borrower->setDateModification(NULL);
             $borrower->setUser($user);
             $manager->persist($borrower);
 

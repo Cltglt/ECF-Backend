@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cb475ce1c774ff45eb1eafe52f4776f",
+    "content-hash": "03950eea3fbe247474f90444c8ffd5a0",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1433,6 +1433,41 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.1.x"
             },
             "time": "2020-07-30T16:57:33+00:00"
+        },
+        {
+            "name": "easybook/slugger",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easybook/slugger.git",
+                "reference": "40609cd6b6019c5f194affe01f88c049f428e04e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easybook/slugger/zipball/40609cd6b6019c5f194affe01f88c049f428e04e",
+                "reference": "40609cd6b6019c5f194affe01f88c049f428e04e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Easybook": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A fast and easy to use slugger with full UTF-8 support.",
+            "support": {
+                "issues": "https://github.com/easybook/slugger/issues",
+                "source": "https://github.com/easybook/slugger/tree/1.0.0"
+            },
+            "abandoned": "javiereguiluz/slugger",
+            "time": "2014-04-08T20:29:46+00:00"
         },
         {
             "name": "egulias/email-validator",
