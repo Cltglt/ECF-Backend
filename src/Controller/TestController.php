@@ -50,7 +50,6 @@ class TestController extends AbstractController
         $users = $userRepository->findByRole('ROLE_EMPRUNTEUR');
         dump($users);
 
-
         // BOOKS
         // Requêtes de lecture :
         // - la liste complète de tous les livres
@@ -147,7 +146,6 @@ class TestController extends AbstractController
         // - la liste des emprunteurs inactifs (c-à-d dont l'attribut `actif` est égal à `false`)
         $borrowers = $borrowerRepository->findByActive(false);
         dump($borrowers);
-
 
         // BORROWING
         // Requêtes de lecture :

@@ -1,0 +1,44 @@
+// BACKGROUNDS
+$background: #ffffff;
+
+// TEXTS
+$textPrimary: #6eafff;
+
+// LINKS
+$link: #0040ff;
+$linkHover: #6eafff;
+$linkNav: #ffffff;
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background-color: $background;
+}
+
+.container{
+    width:80%;
+    margin: 0 auto;
+}
+
+h1,h2,h3,p,span,td,th,tr{
+    color: $textPrimary;
+}
+
+.titlePage{
+    text-align:center;
+    font-size:4.5em;
+    margin: 30px;
+    letter-spacing: 5px;
+}
+
+.navbar{
+    background-color: $textPrimary;
+}
+
+a{
+    color:$link;
+    &:hover{
+        color: $linkHover;
+    }
+}

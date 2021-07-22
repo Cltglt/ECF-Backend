@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+
+<h1>Book Details</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Editing</th>
+                <th>Pages</th>
+                <th>ISBN</th>
+                <th>Author</th>
+                <th>Kind</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.editing }}</td>
+                <td>{{ book.pages }}</td>
+                <td>{{ book.codeisbn }}</td>
+                <td>{{ book.author.firstname }}{{ book.author.lastname }}</td>
+                {# <td>{{ book.kind.name }}</td> #}
+
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

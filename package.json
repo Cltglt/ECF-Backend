@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "bootstrap": "4.6",
+    "popper.js": "^1.16.1"
+  },
+  "name": "ecf-backend",
+  "description": "Cette appli permet de gérer une bibliothéque.",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {
+    "@symfony/stimulus-bridge": "^2.1.0",
+    "@symfony/webpack-encore": "^1.5.0",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "webpack-notifier": "^1.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "encore dev --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cltglt/ECF-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cltglt/ECF-Backend/issues"
+  },
+  "homepage": "https://github.com/Cltglt/ECF-Backend#readme"
+}
