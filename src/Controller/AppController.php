@@ -17,7 +17,7 @@ class AppController extends AbstractController
     {
 
         return $this->render('app/index.html.twig', [
-            'books' => $bookRepository->findAll(),
+            'books' => $bookRepository->findAll()
         ]);
     }
 }

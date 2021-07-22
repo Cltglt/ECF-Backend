@@ -42,7 +42,7 @@ class Book
     /**
      * @ORM\OneToMany(targetEntity=Borrowing::class, mappedBy="book")
      */
-    private $borrowing;
+    public $borrowing;
 
     /**
      * @ORM\ManyToOne(targetEntity=Author::class, inversedBy="books")

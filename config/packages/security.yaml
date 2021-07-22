@@ -21,6 +21,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -33,3 +38,26 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        # CRUD
+        - { path: "^/admin/author", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/book", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/borrower", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/borrowing", roles: [ROLE_ADMIN,ROLE_EMPRUNTEUR] }
+        - { path: "^/admin/kind", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/user", roles: [ROLE_ADMIN] }
+
+        # New
+        - { path: "^/admin/author/new", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/book/new", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/borrower/new", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/borrowing/new", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/kind/new", roles: [ROLE_ADMIN] }
+        - { path: "^/admin/user/new", roles: [ROLE_ADMIN] }
+
+        # :id
+        - { path: "^/admin/borrowing/[0-9]", roles: [ROLE_ADMIN,ROLE_EMPRUNTEUR] }
+
+        # :id/Edit
+        - { path: "^/admin/borrowing/[0-9]+/edit", roles: [ROLE_ADMIN] }
+

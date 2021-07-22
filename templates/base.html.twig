@@ -17,7 +17,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">ECF-Backend</a>
+        <a class="navbar-brand" href="{{ path('app') }}">ECF-Backend</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,41 +25,33 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
                 <li class="nav-item active">
                     <a class="nav-link navLink" href="{{ path('app') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Books</a>
+                    <a class="nav-link navLink" href="{{ path('book_index') }}">Books</a>
                 </li>
-
-                {# Route a changer  #}
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Users</a>
+                    <a class="nav-link navLink" href="{{ path('borrowing_index') }}">Borrowings</a>
                 </li>
-                {# Route a changer  #}
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Authors</a>
+                    <a class="nav-link navLink" href="{{ path('user_index') }}">Users</a>
                 </li>
-                {# Route a changer  #}
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Kinds</a>
+                    <a class="nav-link navLink" href="{{ path('author_index') }}">Authors</a>
                 </li>
-                {# Route a changer  #}
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Borrowers</a>
+                    <a class="nav-link navLink" href="{{ path('kind_index') }}">Kinds</a>
                 </li>
-                {# Route a changer  #}
                 <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('book') }}">Borrowings</a>
+                    <a class="nav-link navLink" href="{{ path('borrower_index') }}">Borrowers</a>
                 </li>
             </ul>
             <div class="my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         {# Route a changer  #}
-                        <a class="nav-link navLink" href="{{ path('book') }}">Login</a>
+                        <a class="nav-link navLink" href="{{ path('app_login') }}">Login</a>
                     </li>
                 </ul>
             </div>

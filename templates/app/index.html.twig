@@ -13,6 +13,8 @@
             <th>Editing</th>
             <th>Pages</th>
             <th>ISBN</th>
+            <th>Emprunt</th>
+
         </tr>
     </thead>
     <tbody>
@@ -27,6 +29,9 @@
             <td>{{ book.editing }}</td>
             <td>{{ book.pages }}</td>
             <td>{{ book.codeisbn }}</td>
+            {# {% if book.borrowing %}
+                    <td>aa</td>
+            {% endif %} #}
 
             <td>
                 {# <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
