@@ -3,45 +3,43 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1 class="titlePage">Accueil</h1>
+<h1 class="titlePage">Accueil</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Editing</th>
-                <th>Pages</th>
-                <th>ISBN</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>
-                    <a href="{{ path('book_show',{ 'id': book.id }) }}">
-                        {{ book.title }}
-                    </a>
-                </td>
-                <td>{{ book.editing }}</td>
-                <td>{{ book.pages }}</td>
-                <td>{{ book.codeisbn }}</td>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Editing</th>
+            <th>Pages</th>
+            <th>ISBN</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>
+                <a href="{{ path('book_show',{ 'id': book.id }) }}">
+                    {{ book.title }}
+                </a>
+            </td>
+            <td>{{ book.editing }}</td>
+            <td>{{ book.pages }}</td>
+            <td>{{ book.codeisbn }}</td>
 
-                <td>
-                    {# <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <td>
+                {# <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a> #}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
-    {# <a href="{{ path('student_new') }}">Create new</a> #}
-
-
+{# <a href="{{ path('student_new') }}">Create new</a> #}
 {% endblock %}
