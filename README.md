@@ -7,6 +7,7 @@ Cette appli permet de gérer une bibliothéque.
     git clone https://github.com/Cltglt/ECF-Backend
     cd ECF-Backend
     composer install
+    npm install
 
 Après install du projet, créez le fichier `.env.local` et ajoutez-y les variables `APP_ENV` et `DATABASE_URL`.
 
