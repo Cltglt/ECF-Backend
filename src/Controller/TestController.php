@@ -196,6 +196,7 @@ class TestController extends AbstractController
         // - date de retour : 01/05/2020 à 10h00
         $borrowing = $borrowingRepository->find(3);
         $borrowing->setDateReturn(\DateTime::createFromFormat($date_format, '2020-05-01 10:00:00'));
+        $entityManager->flush();
         dump($borrowing);
 
         // Requêtes de suppression :

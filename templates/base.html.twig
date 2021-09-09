@@ -17,7 +17,10 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="{{ path('app') }}">ECF-Backend</a>
+        <a class="navbar-brand styleBackend" href="{{ path('app') }}">ECF-Backend</a>
+
+        <a class="a" href="">ECF-Backend</a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,26 +31,35 @@
                 <li class="nav-item active">
                     <a class="nav-link navLink" href="{{ path('app') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link navLink" href="{{ path('borrowing_index') }}">Borrowings</a>
-                </li>
-                {% if is_granted('ROLE_ADMIN') %}
+
+                {% if is_granted('ROLE_EMPRUNTEUR') or is_granted('ROLE_ADMIN') %}
+
                     <li class="nav-item">
-                        <a class="nav-link navLink" href="{{ path('book_index') }}">Books</a>
+                        <a class="nav-link navLink" href="{{ path('borrowing_index') }}">Borrowings</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link navLink" href="{{ path('user_index') }}">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link navLink" href="{{ path('author_index') }}">Authors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link navLink" href="{{ path('kind_index') }}">Kinds</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link navLink" href="{{ path('borrower_index') }}">Borrowers</a>
-                    </li>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <li class="nav-item">
+                            <a class="nav-link navLink" href="{{ path('book_index') }}">Books</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navLink" href="{{ path('user_index') }}">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navLink" href="{{ path('author_index') }}">Authors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navLink" href="{{ path('kind_index') }}">Kinds</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navLink" href="{{ path('borrower_index') }}">Borrowers</a>
+                        </li>
+
+                    {% endif %}
+
                 {% endif %}
+
             </ul>
             <div class="my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">

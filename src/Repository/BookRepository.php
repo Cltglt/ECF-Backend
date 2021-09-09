@@ -53,7 +53,7 @@ class BookRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.author', 'a')
-            ->andWhere('a.id LIKE :id')
+            ->andWhere('a.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()

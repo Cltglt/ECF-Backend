@@ -27,7 +27,7 @@ class BorrowerRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.user', 'u')
-            ->where('u.id LIKE :id')
+            ->where('u.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
@@ -58,7 +58,7 @@ class BorrowerRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->where('b.phone LIKE :phone')
-            ->setParameter('phone', $phone)
+            ->setParameter('phone', "%{$phone}%")
             ->getQuery()
             ->getResult()
         ;
@@ -72,7 +72,7 @@ class BorrowerRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->where('b.date_creation < :date_creation')
-            ->setParameter('date_creation', "%{$date}%")
+            ->setParameter('date_creation', $date)
             ->getQuery()
             ->getResult()
         ;
@@ -85,7 +85,7 @@ class BorrowerRepository extends ServiceEntityRepository
     public function findByActive(bool $active)
     {
         return $this->createQueryBuilder('b')
-            ->where('b.active LIKE :active')
+            ->where('b.active = :active')
             ->setParameter('active', $active)
             ->getQuery()
             ->getResult()

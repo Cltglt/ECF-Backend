@@ -23,7 +23,7 @@ class BorrowingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('bi')
             ->innerJoin('bi.borrower', 'be')
-            ->where('be.id LIKE :id')
+            ->where('be.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
@@ -34,7 +34,7 @@ class BorrowingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.book', 'bo')
-            ->where('bo.id LIKE :id')
+            ->where('bo.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
@@ -45,7 +45,7 @@ class BorrowingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->where('b.date_return < :date_return')
-            ->setParameter('date_return', "%{$date}%")
+            ->setParameter('date_return', $date)
             ->getQuery()
             ->getResult()
         ;
@@ -54,7 +54,7 @@ class BorrowingRepository extends ServiceEntityRepository
     public function findBorrowingByReturnDateNull()
     {
         return $this->createQueryBuilder('b')
-            ->where('b.date_return LIKE :date_return')
+            ->where('b.date_return IS NULL')
             ->setParameter('date_return', null)
             ->getQuery()
             ->getResult()
@@ -65,8 +65,8 @@ class BorrowingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->innerJoin('b.book', 'bo')
-            ->where('bo.id LIKE :id')
-            ->andWhere('b.date_return LIKE :date_return')
+            ->where('bo.id = :id')
+            ->andWhere('b.date_return IS NULL')
             ->setParameter('id', $id)
             ->setParameter('date_return', null)
             ->getQuery()

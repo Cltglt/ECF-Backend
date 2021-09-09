@@ -25,12 +25,8 @@ h1,h2,h3,p,span,td,th,tr{
     color: $textPrimary;
 }
 
-.titlePage{
-    text-align:center;
-    font-size:4.5em;
-    margin: 30px;
-    letter-spacing: 5px;
-}
+
+
 
 .navbar{
     background-color: $textPrimary;
@@ -39,9 +35,21 @@ h1,h2,h3,p,span,td,th,tr{
 
 }
 
-a{
-    color:$link;
-    &:hover{
-        color: $linkHover;
-    }
+// a{
+//     color:$link;
+//     &:hover{
+//         color: $linkHover;
+//     }
+// }
+
+.a{
+    border: 1px solid red ;
+    letter-spacing:10px
+}
+
+.titlePage{
+    text-align:center;
+    font-size:4.5em;
+    margin: 30px;
+    letter-spacing: 5px;
 }
